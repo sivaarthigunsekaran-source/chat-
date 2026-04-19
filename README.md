@@ -1,92 +1,65 @@
-# 💬 Chat Application
+# 🌍 Polyglot Chat App
 
-A simple real-time chat application built using Node.js and Socket.io.
-This project allows users to send and receive messages instantly between sender and receiver interfaces.
+A real-time multilingual chat application built using **Node.js, Socket.io, and Google Translate API**.
 
----
+## 🚀 Features
 
-##  Features
+* 🌐 60+ language translation
+* 💬 Real-time messaging (WebSockets)
+* 🌙 Dark mode UI
+* 🎤 Voice input support
+* ⏰ Message timestamps
+* 👤 User avatars
+* ✍️ Typing indicator
 
-* Real-time messaging
-* Separate sender and receiver pages
-* Fast communication using WebSockets
-* Beginner-friendly project structure
-
----
-
-## Tech Stack
+## 🛠 Tech Stack
 
 * Node.js
+* Express.js
 * Socket.io
-* HTML
-* CSS
+* Google Translate API
+* HTML, CSS, JavaScript
 
----
-
-## Project Structure
+## 📂 Project Structure
 
 ```
 chat/
 │── server.js
-│── sender-server.js
-│── receiver-server.js
-│── sender.html
-│── receiver.html
-│── package.json
-│── README.md
+│── index.html
+│── public/
+│   ├── style.css
+│   └── app.js
 ```
 
----
-
-## How to Run the Project
-
-1. Clone the repository:
-
-```
-git clone https://github.com/sivaarthigunsekaran-source/chat-.git
-```
-
-2. Navigate to the project folder:
-
-```
-cd chat-
-```
-
-3. Install dependencies:
+## ▶️ Run Locally
 
 ```
 npm install
-```
-
-4. Start the server:
-
-```
 node server.js
 ```
 
-5. Open in browser:
+Open:
+http://localhost:5000
 
-* Open `sender.html`
-* Open `receiver.html`
+## 🌐 Live Demo
 
----
+👉 Coming Soon...
 
-## Future Improvements
+## 📸 Screenshots
 
-* Add username feature
-* Improve UI design
-* Add message timestamps
-* Deploy online
+(Add screenshots here after deployment)
 
----
+## 🚀 Future Improvements
 
-##  Author
+* Authentication (Login/Signup)
+* Chat history (MongoDB)
+* Group chat
+* File sharing
+
+## 👨‍💻 Author
 
 Sivaarthi Gunasekaran
 
-
 ---
 
-## ⭐ If you like this project
-
-Give it a star on GitHub!
+⭐ Star this repo if you like it!
