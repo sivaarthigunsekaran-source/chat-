@@ -19,5 +19,14 @@
     "mongoose": "^9.2.3",
     "socket.io": "^4.8.3"
   },
-  "description": ""
+  "description": "",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/sivaarthigunsekaran-source/chat-.git"
+  },
+  "type": "commonjs",
+  "bugs": {
+    "url": "https://github.com/sivaarthigunsekaran-source/chat-/issues"
+  },
+  "homepage": "https://github.com/sivaarthigunsekaran-source/chat-#readme"
 }
