@@ -5,7 +5,7 @@ This project allows users to send and receive messages instantly between sender 
 
 ---
 
-## 🚀 Features
+##  Features
 
 * Real-time messaging
 * Separate sender and receiver pages
@@ -14,7 +14,7 @@ This project allows users to send and receive messages instantly between sender 
 
 ---
 
-## 🛠️ Tech Stack
+## Tech Stack
 
 * Node.js
 * Socket.io
@@ -23,7 +23,7 @@ This project allows users to send and receive messages instantly between sender 
 
 ---
 
-## 📁 Project Structure
+## Project Structure
 
 ```
 chat/
@@ -38,7 +38,7 @@ chat/
 
 ---
 
-## ▶️ How to Run the Project
+## How to Run the Project
 
 1. Clone the repository:
 
@@ -71,7 +71,7 @@ node server.js
 
 ---
 
-## 📌 Future Improvements
+## Future Improvements
 
 * Add username feature
 * Improve UI design
@@ -80,9 +80,10 @@ node server.js
 
 ---
 
-## 🙌 Author
+##  Author
 
-Sivaarthi G
+Sivaarthi Gunasekaran
+
 
 ---
 
