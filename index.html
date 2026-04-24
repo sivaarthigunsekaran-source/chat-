@@ -2,140 +2,195 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>Polyglot Chat</title>
-
+<title>Polyglot Chat Pro</title>
 <style>
-body{
-  font-family: Arial;
-  background:#4facfe;
-  display:flex;
-  justify-content:center;
-  align-items:center;
-  height:100vh;
+body {
+  margin: 0;
+  font-family: "Segoe UI";
+  background: #ece5dd;
+  display: flex;
+  justify-content: center;
 }
-
-#box{
-  width:400px;
-  height:600px;
-  background:white;
-  display:flex;
-  flex-direction:column;
-}
-
-#chat{
-  flex:1;
-  overflow-y:auto;
-  padding:10px;
-}
-
-.msg{
-  background:#eee;
-  margin:5px;
-  padding:8px;
-  border-radius:8px;
-}
-
-input,select,button{
-  padding:10px;
-  margin:5px;
-}
+.dark { background: #121212 !important; color: white; }
+#app { width: 400px; height: 95vh; display: flex; flex-direction: column; background: white; }
+.header { background: #075e54; color: white; padding: 10px; display: flex; justify-content: space-between; }
+#chat { flex: 1; overflow-y: auto; padding: 10px; display: flex; flex-direction: column; gap: 10px; }
+.message { max-width: 70%; padding: 10px; border-radius: 10px; }
+.sent { background: #dcf8c6; align-self: flex-end; }
+.received { background: #fff; align-self: flex-start; }
+.input-area { padding: 10px; background: #f0f0f0; }
+.dark .input-area { background: #2a2a2a; }
+.bottom-row { display: flex; gap: 5px; }
+.bottom-row input { flex: 1; height: 40px; }
+button { height: 40px; background: #075e54; color: white; border: none; cursor: pointer; }
 </style>
 </head>
-
 <body>
+<div id="app">
+  <div class="header">
+    🌍 Polyglot Chat
+    <div>
+      <button onclick="toggleDark()">🌙</button>
+      <button onclick="showVideo()">📹</button>
+    </div>
+  </div>
 
-<div id="box">
-
-  <input id="user" placeholder="Enter name">
-
-  <select id="lang">
-    <option value="en">English</option>
-    <option value="ta">Tamil</option>
-    <option value="hi">Hindi</option>
-    <option value="te">Telugu</option>
-    <option value="kn">Kannada</option>
-    <option value="ml">Malayalam</option>
-    <option value="bn">Bengali</option>
-    <option value="mr">Marathi</option>
-    <option value="gu">Gujarati</option>
-    <option value="pa">Punjabi</option>
-    <option value="ur">Urdu</option>
-    <option value="es">Spanish</option>
-    <option value="fr">French</option>
-    <option value="de">German</option>
-    <option value="it">Italian</option>
-    <option value="pt">Portuguese</option>
-    <option value="ru">Russian</option>
-    <option value="zh">Chinese</option>
-    <option value="ja">Japanese</option>
-    <option value="ko">Korean</option>
-    <option value="ar">Arabic</option>
-    <option value="tr">Turkish</option>
-    <option value="nl">Dutch</option>
-    <option value="sv">Swedish</option>
-    <option value="pl">Polish</option>
-    <option value="vi">Vietnamese</option>
-    <option value="th">Thai</option>
-    <option value="id">Indonesian</option>
-    <option value="ms">Malay</option>
-    <option value="fa">Persian</option>
-    <option value="he">Hebrew</option>
-    <option value="uk">Ukrainian</option>
-    <option value="ro">Romanian</option>
-    <option value="el">Greek</option>
-    <option value="cs">Czech</option>
-    <option value="fi">Finnish</option>
-    <option value="da">Danish</option>
-    <option value="no">Norwegian</option>
-    <option value="sw">Swahili</option>
-    <option value="af">Afrikaans</option>
-  </select>
+  <!-- 🎥 VIDEO -->
+  <div id="videoBox" style="display:none; background:black; text-align:center;">
+    <video id="localVideo" autoplay muted playsinline width="45%"></video>
+    <video id="remoteVideo" autoplay playsinline width="45%"></video><br>
+    <button onclick="startCall()">Start</button>
+    <button onclick="endCall()">End</button>
+  </div>
 
   <div id="chat"></div>
+  <div id="typing" style="display:none; font-size:12px; color:gray;"></div>
 
-  <input id="msg" placeholder="Message">
-  <button onclick="send()">Send</button>
+  <div class="input-area">
+    <input id="user" placeholder="Name"><br><br>
+    <select id="lang" onchange="setLang()">
+      <option value="en-US">English</option>
+      <option value="ta-IN">Tamil</option>
+      <option value="hi-IN">Hindi</option>
+      <option value="pl-PL">Polish</option>
+      <option value="es-ES">Spanish</option>
+      <option value="fr-FR">French</option>
+      <option value="de-DE">German</option>
+      <option value="ru-RU">Russian</option>
+      <option value="zh-CN">Chinese</option>
+      <option value="ja-JP">Japanese</option>
+      <option value="ko-KR">Korean</option>
+    </select><br><br>
 
+    <input type="file" id="fileInput"><br><br>
+
+    <div class="bottom-row">
+      <input id="msg" placeholder="Message">
+      <button onclick="startVoice()">🎤</button>
+      <button onclick="send()">➤</button>
+    </div>
+    <button onclick="recordVoice()">🎙 Record Voice Msg</button>
+  </div>
 </div>
 
 <script src="/socket.io/socket.io.js"></script>
-
 <script>
 const socket = io();
-
-/* ELEMENTS */
 const user = document.getElementById("user");
 const msg = document.getElementById("msg");
 const chat = document.getElementById("chat");
-const lang = document.getElementById("lang");
 
-/* SET LANGUAGE */
-lang.addEventListener("change", () => {
-  socket.emit("set_language", lang.value);
-});
+// 🌍 Language
+function setLang() { socket.emit("set_language", document.getElementById("lang").value); }
 
-/* SEND MESSAGE */
+// 💬 Send
 function send() {
   if (!user.value || !msg.value) return;
-
-  socket.emit("send_message", {
-    user: user.value,
-    msg: msg.value
-  });
-
+  socket.emit("send_message", { user: user.value, msg: msg.value });
   msg.value = "";
 }
 
-/* RECEIVE MESSAGE */
+// 📩 Receive
 socket.on("receive_message", (data) => {
   const div = document.createElement("div");
-  div.className = "msg";
-  div.innerText = data.user + ": " + data.msg;
-
+  div.className = data.user === user.value ? "message sent" : "message received";
+  div.innerHTML = `<b>${data.user}</b>: ${data.msg}<br><small>${data.original}</small>
+    <button onclick="speak('${data.msg}','${data.lang}')">🔊</button>`;
   chat.appendChild(div);
-  chat.scrollTop = chat.scrollHeight;
+});
+
+// 🎤 Voice Input
+function startVoice() {
+  const SR = window.SpeechRecognition || window.webkitSpeechRecognition;
+  if (!SR) return alert("Use Chrome");
+  const rec = new SR();
+  rec.lang = document.getElementById("lang").value;
+  rec.start();
+  rec.onresult = e => { msg.value = e.results[0][0].transcript; };
+}
+
+// 🔊 Speak
+function speak(text, lang) {
+  const s = new SpeechSynthesisUtterance(text);
+  s.lang = lang;
+  speechSynthesis.speak(s);
+}
+
+// 🌙 Dark
+function toggleDark() { document.body.classList.toggle("dark"); }
+
+// 🎥 Video
+let localStream, peer;
+const localVideo = document.getElementById("localVideo");
+const remoteVideo = document.getElementById("remoteVideo");
+function showVideo() { document.getElementById("videoBox").style.display = "block"; }
+function createPeer() {
+  peer = new RTCPeerConnection({
+    iceServers: [
+      { urls: "stun:stun.l.google.com:19302" },
+      { urls: "turn:openrelay.metered.ca:80", username: "openrelayproject", credential: "openrelayproject" }
+    ]
+  });
+  localStream.getTracks().forEach(track => peer.addTrack(track, localStream));
+  peer.ontrack = e => { remoteVideo.srcObject = e.streams[0]; };
+  peer.onicecandidate = e => { if (e.candidate) socket.emit("ice-candidate", e.candidate); };
+}
+async function startCall() {
+  try {
+    localStream = await navigator.mediaDevices.getUserMedia({ video: true, audio: true });
+    console.log("✅ Got local stream:", localStream);
+    localVideo.srcObject = localStream;
+    createPeer();
+    const offer = await peer.createOffer();
+    await peer.setLocalDescription(offer);
+    socket.emit("offer", offer);
+  } catch (err) {
+    console.error("❌ Camera error:", err);
+    alert("Camera access failed: " + err.message);
+  }
+}
+socket.on("offer", async (offer) => {
+  showVideo();
+  localStream = await navigator.mediaDevices.getUserMedia({ video: true, audio: true });
+  localVideo.srcObject = localStream;
+  createPeer();
+  await peer.setRemoteDescription(offer);
+  const answer = await peer.createAnswer();
+  await peer.setLocalDescription(answer);
+  socket.emit("answer", answer);
+});
+socket.on("answer", async (answer) => { await peer.setRemoteDescription(answer); });
+socket.on("ice-candidate", async (c) => { try { if (peer) await peer.addIceCandidate(c); } catch {} });
+function endCall() {
+  if (peer) peer.close();
+  if (localStream) localStream.getTracks().forEach(t => t.stop());
+}
+
+// 🎙 Voice Messages
+let recorder, chunks = [];
+async function recordVoice() {
+  const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
+  recorder = new MediaRecorder(stream);
+  recorder.ondataavailable = e => chunks.push(e.data);
+  recorder.onstop = () => {
+    const blob = new Blob(chunks, { type: "audio/webm" });
+    const reader = new FileReader();
+    reader.onloadend = () => {
+      socket.emit("send_voice", { user: user.value, audio: reader.result });
+    };
+    reader.readAsDataURL(blob);
+    chunks = [];
+  };
+  recorder.start();
+  setTimeout(() => recorder.stop(), 5000); // record 5s
+}
+socket.on("receive_voice", (data) => {
+  const div = document.createElement("div");
+  div.className = data.user === user.value ? "message sent" : "message received";
+  div.innerHTML = `<b>${data.user}</b>: 🎙 Voice Message<br>
+    <audio controls src="${data.audio}"></audio>`;
+  chat.appendChild(div);
 });
 </script>
-
 </body>
 </html>
