@@ -1,65 +1,105 @@
-# 🌍 Polyglot Chat App
+# 💬 Real-Time Chat Application
 
-A real-time multilingual chat application built using **Node.js, Socket.io, and Google Translate API**.
-
-## 🚀 Features
-
-* 🌐 60+ language translation
-* 💬 Real-time messaging (WebSockets)
-* 🌙 Dark mode UI
-* 🎤 Voice input support
-* ⏰ Message timestamps
-* 👤 User avatars
-* ✍️ Typing indicator
-
-## 🛠 Tech Stack
-
-* Node.js
-* Express.js
-* Socket.io
-* Google Translate API
-* HTML, CSS, JavaScript
-
-## 📂 Project Structure
-
-```
-chat/
-│── server.js
-│── index.html
-│── public/
-│   ├── style.css
-│   └── app.js
-```
-
-## ▶️ Run Locally
-
-```
-npm install
-node server.js
-```
-
-Open:
-http://localhost:5000
-
-## 🌐 Live Demo
-
-👉 Coming Soon...
-
-## 📸 Screenshots
-
-(Add screenshots here after deployment)
-
-## 🚀 Future Improvements
-
-* Authentication (Login/Signup)
-* Chat history (MongoDB)
-* Group chat
-* File sharing
-
-## 👨‍💻 Author
-
-Sivaarthi Gunasekaran
+A full-featured real-time chat application built using Node.js and Socket.io, supporting messaging, voice messages, and video calling capabilities.
 
 ---
 
-⭐ Star this repo if you like it!
+## 🚀 Features
+
+* 💬 Real-time messaging using WebSockets
+* 🔊 Voice message support
+* 🎥 Video calling functionality
+* 👥 Multiple user communication
+* ⚡ Fast and responsive UI
+
+---
+
+## 🛠️ Tech Stack
+
+* **Frontend:** HTML, CSS, JavaScript
+* **Backend:** Node.js
+* **Real-time Communication:** Socket.io
+
+---
+
+## 📁 Project Structure
+
+```
+chat/
+│── node_modules/
+│── index.html
+│── server.js
+│── package.json
+│── package-lock.json
+│── VideoCall.js
+│── VoiceMessages.js
+```
+
+---
+
+## ⚙️ Installation & Setup
+
+1. Clone the repository:
+
+```
+git clone https://github.com/sivaarthigunsekaran-source/chattt.git
+```
+
+2. Navigate to the project folder:
+
+```
+cd chat
+```
+
+3. Install dependencies:
+
+```
+npm install
+```
+
+4. Run the server:
+
+```
+node server.js
+```
+
+---
+
+## 🌐 Usage
+
+* Open your browser and go to:
+
+```
+http://localhost:3000
+
+
+* Start chatting in real-time
+* Use voice and video features
+
+
+## 📌 Future Enhancements
+
+* 🔐 User authentication
+* 💾 Chat history storage (MongoDB)
+* 🌍 Multi-language support
+* 📱 Mobile responsiveness improvements
+
+
+## 🤝 Contributing
+
+Contributions are welcome! Feel free to fork the repo and submit a pull request
+
+## 📜 License
+
+This project is licensed under the MIT License.
+
+## 👩‍💻 Author
+
+**Sivaarthi Gunasekaran**
+GitHub: https://github.com/sivaarthigunsekaran-source
+
+---
+
+## ⭐ Support
+
+If you like this project, give it a ⭐ on GitHub!
